@@ -150,6 +150,8 @@ const bingProxyLink = newProxyLinkHttp<Env>({
             }
             // login请求
             if (
+                // 新版请求
+                p == "/oauth20_authorize.srf" ||
                 p == "/GetCredentialType.srf" ||
                 p.startsWith("/ppsecure/") ||
                 p == "/login.srf" ||
@@ -201,10 +203,17 @@ const bingProxyLink = newProxyLinkHttp<Env>({
                 originUrl.hostname = "copilot.microsoft.com"
                 if (
                     url.pathname == "/GetCredentialType.srf" ||
+                    // 新版请求
+                    url.pathname == "/oauth20_authorize.srf" ||
                     url.pathname.startsWith("/ppsecure/") ||
-                    url.pathname.startsWith("/common/")||
                     url.pathname == "/GetExperimentAssignments.srf" ||
                     url.pathname == "/secure/Passport.aspx"
+                ) {
+                    originUrl.hostname = "login.live.com"
+                }
+                if (
+                    // 新版请求
+                    url.pathname.startsWith("/common/")
                 ) {
                     originUrl.hostname = "login.microsoftonline.com"
                 }
@@ -223,10 +232,17 @@ const bingProxyLink = newProxyLinkHttp<Env>({
                 refererUrl.hostname = "copilot.microsoft.com"
                 if (
                     url.pathname == "/secure/Passport.aspx" ||
+                    // 新版请求
+                    url.pathname == "/oauth20_authorize.srf" ||
                     url.pathname.startsWith("/ppsecure/") ||
-                    url.pathname.startsWith("/common/")||
                     url.pathname == "/GetExperimentAssignments.srf" ||
                     url.pathname == "/GetCredentialType.srf"
+                ) {
+                    refererUrl.hostname = "login.live.com"
+                }
+                if (
+                    // 新版请求
+                    url.pathname.startsWith("/common/")
                 ) {
                     refererUrl.hostname = "login.microsoftonline.com"
                 }
@@ -244,7 +260,7 @@ const bingProxyLink = newProxyLinkHttp<Env>({
                     url.searchParams.set("requrl", requrl.replace(proxyOrigin, "https://copilot.microsoft.com"));
                 }
             }
-            if (p == "/common/oauth2/v2.0/authorize") {
+            if (p == "/common/oauth2/v2.0/authorize/") {
                 let requrl = url.searchParams.get("redirect_uri");
                 if (requrl) {
                     url.searchParams.set("redirect_uri", requrl.replace(proxyOrigin, "https://copilot.microsoft.com"));
