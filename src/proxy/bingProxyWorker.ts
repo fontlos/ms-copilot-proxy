@@ -144,6 +144,10 @@ const bingProxyLink = newProxyLinkHttp<Env>({
             if (p.startsWith("/opaluqu/")) {
                 config.url.hostname = "www.bing.com"
             }
+            // 新版 login 请求
+            if (p.startsWith("/common/")) {
+                config.url.hostname = "login.microsoftonline.com"
+            }
             // login请求
             if (
                 p == "/GetCredentialType.srf" ||
@@ -198,10 +202,11 @@ const bingProxyLink = newProxyLinkHttp<Env>({
                 if (
                     url.pathname == "/GetCredentialType.srf" ||
                     url.pathname.startsWith("/ppsecure/") ||
+                    url.pathname.startsWith("/common/")||
                     url.pathname == "/GetExperimentAssignments.srf" ||
                     url.pathname == "/secure/Passport.aspx"
                 ) {
-                    originUrl.hostname = "login.live.com"
+                    originUrl.hostname = "login.microsoftonline.com"
                 }
                 resHeaders.set('Origin', originUrl.origin);
             }
@@ -219,10 +224,11 @@ const bingProxyLink = newProxyLinkHttp<Env>({
                 if (
                     url.pathname == "/secure/Passport.aspx" ||
                     url.pathname.startsWith("/ppsecure/") ||
+                    url.pathname.startsWith("/common/")||
                     url.pathname == "/GetExperimentAssignments.srf" ||
                     url.pathname == "/GetCredentialType.srf"
                 ) {
-                    refererUrl.hostname = "login.live.com"
+                    refererUrl.hostname = "login.microsoftonline.com"
                 }
                 resHeaders.set('Referer', refererUrl.toString());
             }
@@ -238,10 +244,10 @@ const bingProxyLink = newProxyLinkHttp<Env>({
                     url.searchParams.set("requrl", requrl.replace(proxyOrigin, "https://copilot.microsoft.com"));
                 }
             }
-            if (p == "/fd/auth/signin") {
-                let requrl = url.searchParams.get("return_url");
+            if (p == "/common/oauth2/v2.0/authorize") {
+                let requrl = url.searchParams.get("redirect_uri");
                 if (requrl) {
-                    url.searchParams.set("return_url", requrl.replace(proxyOrigin, "https://copilot.microsoft.com"));
+                    url.searchParams.set("redirect_uri", requrl.replace(proxyOrigin, "https://copilot.microsoft.com"));
                 }
             }
             if (p.toLocaleLowerCase().startsWith('/identity/') || p=="/proofs/Add") {
@@ -311,6 +317,7 @@ const bingProxyLink = newProxyLinkHttp<Env>({
                 let value = headerPer[1];
                 if (key.toLocaleLowerCase() == 'set-cookie') {
                     value = value.replace(/[Dd]omain=\.?[0-9a-z]*\.?microsoft\.com/, `Domain=.${reqUrl.hostname}`);
+                    value = value.replace(/[Dd]omain=\.?[0-9a-z]*\.?microsoftonline\.com/, `Domain=.${reqUrl.hostname}`);
                     value = value.replace(/[Dd]omain=\.?[0-9a-z]*\.?live\.com/, `Domain=.${reqUrl.hostname}`);
                     value = value.replace(/[Dd]omain=\.?[0-9a-z]*\.?bing\.com/, `Domain=.${reqUrl.hostname}`);
                 }
@@ -343,6 +350,7 @@ const bingProxyLink = newProxyLinkHttp<Env>({
 
                 retBody = retBody.replace(/https?:\/\/sydney\.bing\.com(:[0-9]{1,6})?/g, `${reqUrl.origin}`);
                 retBody = retBody.replace(/https?:\/\/login\.live\.com(:[0-9]{1,6})?/g, `${reqUrl.origin}`);
+                retBody = retBody.replace(/https?:\/\/login\.microsoftonline\.com(:[0-9]{1,6})?/g, `${reqUrl.origin}`);
                 retBody = retBody.replace(/https?:\/\/account\.live\.com(:[0-9]{1,6})?/g, `${reqUrl.origin}`);
                 retBody = retBody.replace(/https?:\/\/copilot\.microsoft\.com(:[0-9]{1,6})?/g, `${reqUrl.origin}`);
                 retBody = retBody.replace(/https?:\/\/www\.bing\.com(:[0-9]{1,6})?/g, `${reqUrl.origin}`);
