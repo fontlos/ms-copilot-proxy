@@ -260,7 +260,13 @@ const bingProxyLink = newProxyLinkHttp<Env>({
                     url.searchParams.set("requrl", requrl.replace(proxyOrigin, "https://copilot.microsoft.com"));
                 }
             }
-            if (p == "/common/oauth2/v2.0/authorize/") {
+            if (p == "/fd/auth/signin") {
+                let requrl = url.searchParams.get("redirect_uri");
+                if (requrl) {
+                    url.searchParams.set("redirect_uri", requrl.replace(proxyOrigin, "https://copilot.microsoft.com"));
+                }
+            }
+            if (p == "/common/oauth2/v2.0/authorize") {
                 let requrl = url.searchParams.get("redirect_uri");
                 if (requrl) {
                     url.searchParams.set("redirect_uri", requrl.replace(proxyOrigin, "https://copilot.microsoft.com"));
