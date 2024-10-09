@@ -152,6 +152,8 @@ const bingProxyLink = newProxyLinkHttp<Env>({
 			// login请求
 			if (
 				p == '/GetCredentialType.srf' ||
+                // 新版登录
+				p == '/oauth20_authorize.srf' ||
 				p.startsWith('/ppsecure/') ||
 				p == '/login.srf' ||
 				p == '/GetOneTimeCode.srf' ||
@@ -197,6 +199,8 @@ const bingProxyLink = newProxyLinkHttp<Env>({
 				originUrl.hostname = 'copilot.microsoft.com';
 				if (
 					url.pathname == '/GetCredentialType.srf' ||
+                    // 新版登录
+					url.pathname == '/oauth20_authorize.srf' ||
 					url.pathname.startsWith('/ppsecure/') ||
 					url.pathname == '/GetExperimentAssignments.srf' ||
 					url.pathname == '/secure/Passport.aspx'
@@ -225,6 +229,8 @@ const bingProxyLink = newProxyLinkHttp<Env>({
 					url.pathname == '/secure/Passport.aspx' ||
 					url.pathname.startsWith('/ppsecure/') ||
 					url.pathname == '/GetExperimentAssignments.srf' ||
+                    // 新版登录
+					url.pathname == '/oauth20_authorize.srf' ||
 					url.pathname == '/GetCredentialType.srf'
 				) {
 					refererUrl.hostname = 'login.live.com';
