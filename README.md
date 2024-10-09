@@ -9,6 +9,12 @@ Fork 自 [jianjianai/microsoft-copilot-proxy](https://github.com/jianjianai/micr
 - 🚀 Cloudflare Worker 一键部署无需其他操作, 完全免费无限制
 - ⚡ 高速访问, Cloudflare 是全球最大的 CDN
 
+## 访问
+
+- Copilot -> https://example.com/
+- Copilot(新版) -> https://example.com/?dpwa=1
+- Designer -> https://example.com/images/create
+
 ## 登录方式
 
 > [!CAUTION]
@@ -37,3 +43,11 @@ Fork 自 [jianjianai/microsoft-copilot-proxy](https://github.com/jianjianai/micr
 npm install
 npm run deploy
 ```
+
+## 环境变量
+| 名称 | 作用 |
+| - | - |
+| ```BYPASS_SERVER``` | 如果为空或者没配置则使用内置pass服务通过验证，如果配置了则使用配置的pass服务器通过验证。本项目将 [Harry-zklcdc/go-bingai-pass](Harry-zklcdc/go-bingai-pass) 打包在一起一键部署，一般情况下此环境变量无需配置。 |
+| ```XForwardedForIP``` | 如果配置了此环境变量，则使用此IP作为X-Forwarded-For头部，不配置则使用随机USIP                                                                                         |
+| ```MCP_PASSWD``` | 密码授权，如果配置了此环境变量则需要输入正确的密码才能使用 |
+| ```LOGIN_PROMPT_MSG``` | 登录提示消息，显示在标题下方，可以是html，配置了MCP_PASSWD才起作用 |
