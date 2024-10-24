@@ -1,8 +1,8 @@
-import { bingProxyWorker } from './proxy/bingProxyWorker';
+import { bingPorxyWorker } from './proxy/bingPorxyWorker';
 
 export default {
 	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-		return bingProxyWorker(request, env);
+		return bingPorxyWorker(request, env);
 	}
 };
 
